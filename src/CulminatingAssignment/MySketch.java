@@ -14,6 +14,7 @@ public class MySketch extends PApplet {
     private Story chang_e;
     private Story moon;  
     int stage = 0; 
+    private Obstacle portal;
 
 
     public void settings(){
@@ -24,11 +25,13 @@ public class MySketch extends PApplet {
         background = loadImage("images/night.png");
         background1 = loadImage("images/background1.png");
         chang_e = new Story(this, 360, 600, "images/chang'e_flying.png");
-        moon = new Story(this, 615, 117, "images/moon.png");
+        moon = new Story(this, 605, 110, "images/moon.png");  
+        portal = new Obstacle(this, "portal", 650, 475, false, "images/portal.png");
     } 
+    
     public void drawCollisions(){
         if (chang_e.isCollidingWith(moon)){
-            stage = 1;
+            stage = 2;
         }
     }
 
@@ -43,8 +46,11 @@ public class MySketch extends PApplet {
        } else if(stage == 1){
             background(255);
        } else if (stage == 2){
-           background1.resize(900,731);
-         image(background1, 0, 0);
+           background.resize(900,731);
+         image(background, 0, 0);
+         moon.draw();
+         portal.draw();
+         
        }
         
     }
