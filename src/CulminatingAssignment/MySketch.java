@@ -15,6 +15,7 @@ public class MySketch extends PApplet {
     private Story moon;  
     int stage = 0; 
     private Obstacle portal;
+    private Houyi houyi;
 
 
     public void settings(){
@@ -27,6 +28,8 @@ public class MySketch extends PApplet {
         chang_e = new Story(this, 360, 600, "images/chang'e_flying.png");
         moon = new Story(this, 605, 110, "images/moon.png");  
         portal = new Obstacle(this, "portal", 650, 475, false, "images/portal.png");
+        houyi = new Houyi(this, 360, 650, "images/walk1_left.png");
+        
     } 
     
     public void drawCollisions(){
@@ -50,9 +53,20 @@ public class MySketch extends PApplet {
          image(background, 0, 0);
          moon.draw();
          portal.draw();
+         houyi.draw();
+         if (keyPressed) {
+            if (keyCode == LEFT) {
+                houyi.move(-5, 0);
+                houyi.left();
+            } else if (keyCode == RIGHT) {
+                houyi.move(5, 0);
+            } else if (keyCode == UP) {
+                houyi.jump();
          
        }
         
+    }
+       }
     }
 }
 
