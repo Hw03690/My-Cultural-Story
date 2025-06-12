@@ -17,14 +17,16 @@ public class Houyi {
   private double velocityY = 0; 
   private double fall = 0.5;
   boolean isJumping = false; // Track jump status
-    boolean walkleft = false; // Track jump status
+    boolean isWalkingLeft = false; // Track jump status
+        boolean isWalkingRight = false; // Track jump status
+
 
   private int health = 3;  // Player health
   private int width, height;
   private PImage image;
   public PApplet app;
   PImage[] walkLeft;
-   int numImages = 4;
+  PImage[] walkRight;
   
   Houyi(PApplet p, int x, int y, String imagePath ) {
     this.app = p;
@@ -55,10 +57,18 @@ public void applyFall(int groundLevel) {
   
   
   public void left() {
-      walkleft = true; 
-      walkLeft = new PImage[numImages];
-     for (int i = 0; i < numImages; i++) {
-       walkLeft[i] = app.loadImage("walk" + i+1 + "_left.png");
+      isWalkingLeft = true; 
+          walkLeft = new PImage[4];
+     for (int i = 0; i < 4; i++) {
+      walkLeft[i] = app.loadImage("images/walk" + (i+1) + "left.png");
+     }
+  }
+  
+    public void right() {
+      isWalkingRight = true; 
+          walkRight = new PImage[4];
+     for (int i = 0; i < 4; i++) {
+      walkRight[i] = app.loadImage("images/walk" + (i+1) + "right.png");
      }
   }
   
@@ -76,9 +86,11 @@ public void applyFall(int groundLevel) {
     }
     
       public void draw(){
+          if(isWalkingLeft){
+              int frame = (app.frameCount/5)% walkLeft.length;
+              app.image(walkLeft[frame], x, y);
+          } else{
       app.image(image, x, y);
-      for (int i = 0; i < numImages; i++) {
-       app.image(walkLeft[i], x, y);
       }
       }
 }

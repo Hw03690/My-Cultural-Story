@@ -28,7 +28,7 @@ public class MySketch extends PApplet {
         chang_e = new Story(this, 360, 600, "images/chang'e_flying.png");
         moon = new Story(this, 605, 110, "images/moon.png");  
         portal = new Obstacle(this, "portal", 650, 475, false, "images/portal.png");
-        houyi = new Houyi(this, 360, 650, "images/walk1_left.png");
+        houyi = new Houyi(this, 360, 650, "images/idle.png");
         
     } 
     
@@ -60,14 +60,15 @@ public class MySketch extends PApplet {
                 houyi.left();
             } else if (keyCode == RIGHT) {
                 houyi.move(5, 0);
+                houyi.right();
             } else if (keyCode == UP) {
-                houyi.jump();
-         
-       }
-        
+                houyi.jump();   
     }
-       }
+       } else{
+             houyi.isWalkingLeft = false;
+             houyi.isWalkingRight = false;
+         }
     }
-}
+}}
 
 
