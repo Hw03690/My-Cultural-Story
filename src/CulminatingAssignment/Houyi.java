@@ -37,12 +37,17 @@ public class Houyi {
     this.height = image.height;
   }
 
+  public void setPosition(int x, int y){
+      this.x = x;
+      this.y = y;
+  }
+  
 public void applyFall(int groundLevel) {
     velocityY += fall; // Apply fall effect
     y += velocityY; // Update position
     
     if (y >= groundLevel) { // Stop falling when reaching ground
-      y = groundLevel;
+      y = groundLevel+50;
       velocityY = 0;
       isJumping = false;
     }
@@ -60,7 +65,7 @@ public void applyFall(int groundLevel) {
       isWalkingLeft = true; 
           walkLeft = new PImage[4];
      for (int i = 0; i < 4; i++) {
-      walkLeft[i] = app.loadImage("images/walk" + (i+1) + "left.png");
+      walkLeft[i] = app.loadImage("images/walk" + (i+1) + "_left.png");
      }
   }
   
@@ -68,7 +73,7 @@ public void applyFall(int groundLevel) {
       isWalkingRight = true; 
           walkRight = new PImage[4];
      for (int i = 0; i < 4; i++) {
-      walkRight[i] = app.loadImage("images/walk" + (i+1) + "right.png");
+      walkRight[i] = app.loadImage("images/walk" + (i+1) + "_right.png");
      }
   }
   
@@ -89,7 +94,11 @@ public void applyFall(int groundLevel) {
           if(isWalkingLeft){
               int frame = (app.frameCount/5)% walkLeft.length;
               app.image(walkLeft[frame], x, y);
-          } else{
+          } else if(isWalkingRight){
+              int frame = (app.frameCount/5)% walkRight.length;
+              app.image(walkRight[frame], x, y);
+          }
+          else{
       app.image(image, x, y);
       }
       }

@@ -20,14 +20,16 @@ public class Cloud extends Obstacle {
     public Cloud(PApplet p, int x, int y, boolean disappears, int timer, String imagePath) {
         super(p, "Cloud", x, y, false, imagePath);
         this.disappears = disappears;
-        this.timer = timer;
-    this.image = app.loadImage(imagePath);
-    
+        this.timer = timer;    
     }
 
     // Floating effect (moves up and down slightly)
     public void floatUpDown() {
         y += Math.sin(System.currentTimeMillis() * 0.001) * 2;
+    }
+    
+        public void floatLeftRight() {
+        x += Math.sin(System.currentTimeMillis() * 0.001) * 2;
     }
 
     // Update method - clouds disappear over time
@@ -41,16 +43,11 @@ public class Cloud extends Obstacle {
         }
     }
 
-    // Override displayInfo method for individual clouds
     @Override
     public void displayInfo() {
         super.displayInfo();
         System.out.println("Disappears: " + disappears + " in " + timer + " seconds");
     }
 
-    // Draw the cloud image
-    public void draw() {
-        app.image(image, x, y);
-    }
 }
 

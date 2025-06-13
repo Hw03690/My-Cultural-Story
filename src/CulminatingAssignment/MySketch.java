@@ -13,9 +13,14 @@ public class MySketch extends PApplet {
     private PImage background1;
     private Story chang_e;
     private Story moon;  
-    int stage = 0; 
+    int stage = 3; 
     private Obstacle portal;
     private Houyi houyi;
+    private Cloud cloud;
+    private Cloud cloud2;
+    private Cloud cloud3;
+    private Cloud [] clouds = new Cloud [3];
+
 
 
     public void settings(){
@@ -29,7 +34,11 @@ public class MySketch extends PApplet {
         moon = new Story(this, 605, 110, "images/moon.png");  
         portal = new Obstacle(this, "portal", 650, 475, false, "images/portal.png");
         houyi = new Houyi(this, 360, 650, "images/idle.png");
-        
+        clouds[0] = new Cloud(this, 0, 650, false, 100, "images/cloud3.png");
+        clouds[1] = new Cloud(this, 350, 650, false, 100, "images/cloud2.png");
+        clouds[2] = new Cloud(this, 700, 500, false, 100, "images/cloud2.png");
+
+
     } 
     
     public void drawCollisions(){
@@ -39,6 +48,20 @@ public class MySketch extends PApplet {
     }
 
     public void draw(){
+                 if (keyPressed) {
+            if (keyCode == LEFT) {
+                houyi.move(-5, 0);
+                houyi.left();
+            } else if (keyCode == RIGHT) {
+                houyi.move(5, 0);
+                houyi.right();
+            } else if (keyCode == UP) {
+                houyi.jump();   
+    }
+       } else{
+             houyi.isWalkingLeft = false;
+             houyi.isWalkingRight = false;
+         }
        if (stage == 0) {  
         background.resize(900,731);
          image(background, 0, 0);
@@ -54,20 +77,26 @@ public class MySketch extends PApplet {
          moon.draw();
          portal.draw();
          houyi.draw();
-         if (keyPressed) {
-            if (keyCode == LEFT) {
-                houyi.move(-5, 0);
-                houyi.left();
-            } else if (keyCode == RIGHT) {
-                houyi.move(5, 0);
-                houyi.right();
-            } else if (keyCode == UP) {
-                houyi.jump();   
-    }
-       } else{
-             houyi.isWalkingLeft = false;
-             houyi.isWalkingRight = false;
+         
+         
+    } else if (stage == 3){
+        background1.resize(900,731);
+         image(background1, 0, 0);
+         houyi.applyFall(650);
+         if (houyi.isCollidingWith(clouds[0])){
+             houyi.applyFall(clouds[0].y);
+         } else if (houyi.isCollidingWith(clouds[1])){
+             houyi.applyFall(clouds[2].y);
+         } else if (houyi.isCollidingWith(clouds[2])){
+             houyi.applyFall(clouds[2].y);
          }
+         
+         houyi.draw();
+         for (int i = 0; i<3; i++){
+            clouds[i].draw(); 
+         }
+         
+
     }
 }}
 
