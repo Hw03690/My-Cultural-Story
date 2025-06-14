@@ -42,16 +42,18 @@ public class Houyi {
       this.y = y;
   }
   
-public void applyFall(int groundLevel) {
-    velocityY += fall; // Apply fall effect
-    y += velocityY; // Update position
-    
-    if (y >= groundLevel) { // Stop falling when reaching ground
-      y = groundLevel+50;
-      velocityY = 0;
-      isJumping = false;
+public void applyFall(Cloud [] clouds) {
+    velocityY += fall; // Apply gravity (fall)
+    y += velocityY; 
+
+    for (Cloud cloud : clouds) {
+        if (isCollidingWith(cloud)) {
+            y = cloud.y - height / 2; // Set Houyi on top of cloud
+            velocityY = 0; // Stop falling
+            isJumping = false; // Allow another jump
+        }
     }
-  }
+}
 
   public void jump() {
     if (!isJumping) { // Prevent jumping again in mid-air

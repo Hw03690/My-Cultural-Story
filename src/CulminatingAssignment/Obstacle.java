@@ -16,7 +16,6 @@ public class Obstacle {
     public int x, y;
     public int width, height;
     private boolean isDangerous;
-    protected int speed;
     private PImage image;
     private PApplet app;
 
@@ -39,7 +38,6 @@ public class Obstacle {
         System.out.println("Position: (" + x + ", " + y + ")");
         System.out.println("Size: " + width + " x " + height);
         System.out.println("Dangerous: " + isDangerous);
-        System.out.println("Speed: " + speed);
     }
     
         public void draw() {

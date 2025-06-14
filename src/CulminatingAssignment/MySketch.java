@@ -82,19 +82,14 @@ public class MySketch extends PApplet {
     } else if (stage == 3){
         background1.resize(900,731);
          image(background1, 0, 0);
-         houyi.applyFall(650);
-         if (houyi.isCollidingWith(clouds[0])){
-             houyi.applyFall(clouds[0].y);
-         } else if (houyi.isCollidingWith(clouds[1])){
-             houyi.applyFall(clouds[2].y);
-         } else if (houyi.isCollidingWith(clouds[2])){
-             houyi.applyFall(clouds[2].y);
-         }
-         
-         houyi.draw();
          for (int i = 0; i<3; i++){
             clouds[i].draw(); 
          }
+         clouds[1].floatLeftRight();
+         houyi.applyFall(clouds);
+         
+         houyi.draw();
+        
          
 
     }

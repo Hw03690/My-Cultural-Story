@@ -15,12 +15,16 @@ public class Cloud extends Obstacle {
     private PApplet app;
     private boolean disappears;
     private int timer;
+    private double speed = 0.2;
+    private int startX;
+    
 
     // Constructor
     public Cloud(PApplet p, int x, int y, boolean disappears, int timer, String imagePath) {
         super(p, "Cloud", x, y, false, imagePath);
         this.disappears = disappears;
-        this.timer = timer;    
+        this.timer = timer;
+        this.startX = x;
     }
 
     // Floating effect (moves up and down slightly)
@@ -29,7 +33,12 @@ public class Cloud extends Obstacle {
     }
     
         public void floatLeftRight() {
-        x += Math.sin(System.currentTimeMillis() * 0.001) * 2;
+        x += 0.2; // Cloud moves horizontally
+
+        // Reverse direction if it reaches a boundary
+        if (x >= startX + 20 || x <= startX - 20) { 
+            speed *= -1; // Change direction
+        }
     }
 
     // Update method - clouds disappear over time
