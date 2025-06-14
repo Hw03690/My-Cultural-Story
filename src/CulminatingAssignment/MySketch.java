@@ -33,7 +33,7 @@ public class MySketch extends PApplet {
         chang_e = new Story(this, 360, 600, "images/chang'e_flying.png");
         moon = new Story(this, 605, 110, "images/moon.png");  
         portal = new Obstacle(this, "portal", 650, 475, false, "images/portal.png");
-        houyi = new Houyi(this, 360, 650, "images/idle.png");
+        houyi = new Houyi(this, 10, 650, "images/idle.png");
         clouds[0] = new Cloud(this, 0, 650, false, 100, "images/cloud3.png");
         clouds[1] = new Cloud(this, 350, 650, false, 100, "images/cloud2.png");
         clouds[2] = new Cloud(this, 700, 500, false, 100, "images/cloud2.png");
@@ -61,6 +61,7 @@ public class MySketch extends PApplet {
        } else{
              houyi.isWalkingLeft = false;
              houyi.isWalkingRight = false;
+             houyi.isJumping = false;
          }
        if (stage == 0) {  
         background.resize(900,731);
@@ -86,8 +87,8 @@ public class MySketch extends PApplet {
             clouds[i].draw(); 
          }
          clouds[1].floatLeftRight();
-         houyi.applyFall(clouds);
-         
+         clouds[2].floatUpDown();
+         houyi.applyFall(clouds);       
          houyi.draw();
         
          

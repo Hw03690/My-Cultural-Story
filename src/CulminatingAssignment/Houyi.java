@@ -13,7 +13,7 @@ import processing.core.PImage;
  * @author 345700744
  */
 public class Houyi {
-  private int x, y;      // Position
+  public int x, y;      // Position
   private double velocityY = 0; 
   private double fall = 0.5;
   boolean isJumping = false; // Track jump status
@@ -40,18 +40,26 @@ public class Houyi {
   public void setPosition(int x, int y){
       this.x = x;
       this.y = y;
+      velocityY = 1;
   }
   
-public void applyFall(Cloud [] clouds) {
-    velocityY += fall; // Apply gravity (fall)
-    y += velocityY; 
+public void applyFall(Cloud[] clouds) {
+    velocityY += fall; // Gravity effect
+    y += velocityY;
+
+    boolean onCloud = false;
 
     for (Cloud cloud : clouds) {
         if (isCollidingWith(cloud)) {
-            y = cloud.y - height / 2; // Set Houyi on top of cloud
-            velocityY = 0; // Stop falling
-            isJumping = false; // Allow another jump
+            y = cloud.y - height / 2; // Snap Houyi to cloud top
+            velocityY = 0; // Stop falling ONLY when landed
+            isJumping = false; // Allow jumping again
+            onCloud = true;
         }
+    }
+
+    if (!onCloud) {
+        velocityY += fall; // Keeps falling when NOT on a cloud
     }
 }
 
