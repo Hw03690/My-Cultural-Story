@@ -15,7 +15,7 @@ import processing.core.PImage;
 public class Houyi {
   public int x, y;      // Position
   private double velocityY = 0; 
-  private double fall = 0.5;
+  private double fall = 0.3;
   boolean isJumping = false; // Track jump status
     boolean isWalkingLeft = false; // Track jump status
         boolean isWalkingRight = false; // Track jump status
@@ -44,31 +44,36 @@ public class Houyi {
   }
   
 public void applyFall(Cloud[] clouds) {
-    velocityY += fall; // Gravity effect
-    y += velocityY;
+    if (!isJumping) { // Apply gravity ONLY when not jumping
+        velocityY += fall;
+    }
+
+    y += velocityY; // Apply movement
 
     boolean onCloud = false;
 
     for (Cloud cloud : clouds) {
-        if (isCollidingWith(cloud)) {
+        if (isCollidingWith(cloud) && velocityY > 0) { // Check if falling, not jumping
             y = cloud.y - height / 2; // Snap Houyi to cloud top
-            velocityY = 0; // Stop falling ONLY when landed
-            isJumping = false; // Allow jumping again
+            velocityY = 0; // Stop downward motion
+            isJumping = false; // Allow another jump
             onCloud = true;
         }
     }
 
     if (!onCloud) {
-        velocityY += fall; // Keeps falling when NOT on a cloud
+        velocityY += fall; // Keep falling when NOT on cloud
     }
 }
 
-  public void jump() {
-    if (!isJumping) { // Prevent jumping again in mid-air
-      velocityY = -10; // Initial jump force
-      isJumping = true; 
+
+public void jump() {
+    if (!isJumping) { // Prevent mid-air jumping
+        velocityY = -10; // Strong upward force
+        y += velocityY; // Immediately move up
+        isJumping = true;
     }
-  }
+}
   
   
   public void left() {

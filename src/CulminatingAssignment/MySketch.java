@@ -56,6 +56,7 @@ public class MySketch extends PApplet {
                 houyi.move(5, 0);
                 houyi.right();
             } else if (keyCode == UP) {
+                println("Jump key pressed!");
                 houyi.jump();   
     }
        } else{
@@ -90,6 +91,7 @@ public class MySketch extends PApplet {
          clouds[2].floatUpDown();
          houyi.applyFall(clouds);       
          houyi.draw();
+         
         
          
 
