@@ -9,5 +9,20 @@ package CulminatingAssignment;
  * @author 345700744
  */
 public class Character {
-    
+
+    private String name;
+
+    // Constructor
+    public Character(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Gets the character's name.
+     *
+     * @return The name of the character.
+     */
+    public String getName() {
+        return name;
+    }
 }

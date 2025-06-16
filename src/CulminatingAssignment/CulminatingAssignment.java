@@ -16,5 +16,5 @@ public class CulminatingAssignment {
     public static void main(String[] args) {
         MySketch.main("CulminatingAssignment.MySketch");
     }
-    
+
 }

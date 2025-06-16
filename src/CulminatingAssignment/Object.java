@@ -11,7 +11,8 @@ import processing.core.PImage;
  *
  * @author 345700744
  */
-public class Obstacle {
+public class Object {
+
     private String type;
     public int x, y;
     public int width, height;
@@ -20,7 +21,7 @@ public class Obstacle {
     private PApplet app;
 
     // Constructor
-    public Obstacle(PApplet p, String type, int x, int y, boolean isDangerous, String imagePath) {
+    public Object(PApplet p, String type, int x, int y, boolean isDangerous, String imagePath) {
         this.type = type;
         this.x = x;
         this.y = y;
@@ -31,16 +32,35 @@ public class Obstacle {
         this.isDangerous = isDangerous;
     }
 
-
-    // Display obstacle information
+    /**
+     * Displays object information.
+     */
     public void displayInfo() {
-        System.out.println("Obstacle Type: " + type);
+        System.out.println("Object Type: " + type);
         System.out.println("Position: (" + x + ", " + y + ")");
         System.out.println("Size: " + width + " x " + height);
         System.out.println("Dangerous: " + isDangerous);
     }
-    
-        public void draw() {
+
+    /**
+     * Checks if the object is clicked based on mouse coordinates.
+     *
+     * @param mouseX X position of the mouse.
+     * @param mouseY Y position of the mouse.
+     * @return True if the object was clicked, false otherwise.
+     */
+    public boolean isClicked(int mouseX, int mouseY) {
+        int width = image.width;
+        int height = image.height;
+
+        return mouseX >= x && mouseX <= x + width // Check horizontal click range
+                && mouseY >= y && mouseY <= y + height; // Check vertical click range
+    }
+
+    /**
+     * Draws the object at its current position on the screen.
+     */
+    public void draw() {
         app.image(image, x, y);
     }
 }
