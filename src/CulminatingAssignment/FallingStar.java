@@ -12,6 +12,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 class FallingStar {
+
     public int x, y, speed;
     private int width, height;
     private PImage image;

@@ -17,6 +17,7 @@ public class Object {
     public int x, y;
     public int width, height;
     private boolean isDangerous;
+    public boolean isVisible = false;
     private PImage image;
     private PApplet app;
 
@@ -62,5 +63,6 @@ public class Object {
      */
     public void draw() {
         app.image(image, x, y);
+        isVisible = true;
     }
 }

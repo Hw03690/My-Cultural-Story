@@ -8,7 +8,6 @@ package CulminatingAssignment;
  *
  * @author 345700744
  */
-
 import processing.core.PApplet;
 import processing.core.PImage;
 

@@ -33,8 +33,8 @@ public class MySketch extends PApplet {
     private Houyi houyi;
     private Chang_e chang_e;
     private Cloud cloud;
-    private Cloud[] stage3Clouds = new Cloud[3];
-    private Cloud[] stage4Clouds = new Cloud[4];
+    private Cloud[] stage4Clouds = new Cloud[3];
+    private Cloud[] stage5Clouds = new Cloud[4];
     private Object direction_sign;
     private static int collectedStars = 0;
     private boolean gameOver = false;
@@ -46,7 +46,7 @@ public class MySketch extends PApplet {
     private FallingStar[][] stars = new FallingStar[1][3];
 
     public void settings() {
-        //sets the size of the window
+        // sets the size of the window
         size(900, 731);
     }
 
@@ -78,18 +78,18 @@ public class MySketch extends PApplet {
         chang_e = new Chang_e(this, 360, 600, "images/chang_eRight.png");
         cloud = new Cloud(this, 0, 650, "images/cloud4.png");
 
-        // Clouds for Stage 3
-        stage3Clouds[0] = new Cloud(this, 0, 650, "images/cloud3.png");
-        stage3Clouds[1] = new Cloud(this, 350, 650, "images/cloud2.png");
-        stage3Clouds[2] = new Cloud(this, 700, 500, "images/cloud3.png");
-
         // Clouds for Stage 4
         stage4Clouds[0] = new Cloud(this, 0, 650, "images/cloud3.png");
-        stage4Clouds[1] = new Cloud(this, 350, 600, "images/cloud1.png", false, true);
-        stage4Clouds[2] = new Cloud(this, 550, 550, "images/cloud1.png", false, true);
-        stage4Clouds[3] = new Cloud(this, 750, 500, "images/cloud2.png");
+        stage4Clouds[1] = new Cloud(this, 350, 650, "images/cloud2.png");
+        stage4Clouds[2] = new Cloud(this, 700, 500, "images/cloud3.png");
 
-        if (setPosition) { // Set position
+        // Clouds for Stage 5
+        stage5Clouds[0] = new Cloud(this, 0, 650, "images/cloud3.png");
+        stage5Clouds[1] = new Cloud(this, 350, 600, "images/cloud1.png", false, true);
+        stage5Clouds[2] = new Cloud(this, 550, 550, "images/cloud1.png", false, true);
+        stage5Clouds[3] = new Cloud(this, 750, 500, "images/cloud2.png");
+
+        if (setPosition) { // Reset Houyi's position to the starting coordinates
             houyi.setPosition(10, 650);
         }
     }
@@ -98,7 +98,7 @@ public class MySketch extends PApplet {
      * Detects collisions between story elements and updates stages.
      */
     public void drawCollisions() {
-        if (stage == 1 && chang_eFly.isCollidingWith(moon)) { // If chang_eFly collide with moon,go to stage 2
+        if (stage == 1 && chang_eFly.isCollidingWith(moon)) { // If chang_eFly collide with moon, go to stage 2
             stage = 2;
         } else if (stage == 3) {
             if (houyi.isCollidingWith(portal)) { // If houyi collide with portal, go to stage 4;
@@ -113,16 +113,17 @@ public class MySketch extends PApplet {
     public void mousePressed() {
         showInstructions = true; // Reset instructions visibility
         // If home button is clicked, go to stage 2 (main menu)
-        if (home.isClicked(mouseX, mouseY)) {
+        if (home.isClicked(mouseX, mouseY) && home.isVisible) {
             // Reset game for Houyi
-            houyi.health = 3;
+            houyi.health = 3; // Reset health
             houyi.setPosition(360, 650);
+            setPosition = false;
             resetGame(); // Reset game for Chang_e
             stage = 2;
         }
-        // Start game when play button is clicked
-        if (stage == 0 && playButton.isClicked(mouseX, mouseY)) {
-            stage = 1; // Goto stage 1
+        // Start game when play button is clicked and is visible
+        if (stage == 0 && playButton.isClicked(mouseX, mouseY) && playButton.isVisible) {
+            stage = 1; // Go to stage 1
             // Select character and move to corresponding stage
         } else if (stage == 2) {
             if (houyiButton.isClicked(mouseX, mouseY)) {
@@ -130,12 +131,12 @@ public class MySketch extends PApplet {
                 stage = 3; // Go to stage 3
             } else if (chang_eButton.isClicked(mouseX, mouseY)) {
                 this.character = chang_e; // Set character to chang_e
-                stage = 7; // Go to stage7
+                stage = 7; // Go to stage 7
             }
-        } else if (restart.isClicked(mouseX, mouseY)) { // If restart button is clicked
+        } else if (restart.isClicked(mouseX, mouseY) && restart.isVisible) { // If restart button is clicked and is visible
             // If Houyi is the active character, restart the game for Houyi
             if (character instanceof Houyi) {
-                houyi.health = 3;
+                houyi.health = 3; // Reset health
                 stage = 4;
                 setPosition = false;
             }
@@ -144,7 +145,6 @@ public class MySketch extends PApplet {
                 resetGame();
             }
         }
-
     }
 
     /**
@@ -311,7 +311,7 @@ public class MySketch extends PApplet {
                 image(beginning, 0, 0);
                 playButton.draw();
                 break;
-            case 1: //// Animation of Chang_e flying to the moon
+            case 1: // Animation of Chang_e flying to the moon
                 background.resize(900, 731);
                 image(background, 0, 0);
                 chang_eFly.draw();
@@ -325,14 +325,14 @@ public class MySketch extends PApplet {
                 houyiButton.draw();
                 chang_eButton.draw();
                 break;
-            case 7: ///Chang_e’s star collection stage
+            case 7: // Chang_e’s star collection stage
                 if (gameSuccess) { // If the game is won, go to ending screen
                     stage = 6;
                 }
                 if (gameOver) { // If the time runs out
                     fill(255);
                     textSize(60);
-                    text("Time’s Up! Game Over!", 160, 190);
+                    text("Time’s Up! Game Over!", 450, 190);
                     restart.draw(); // Show restart button
                     return;
                 }
@@ -357,13 +357,13 @@ public class MySketch extends PApplet {
                     // Display collected stars count
                     fill(255);
                     textSize(20);
-                    text("Stars Collected: " + collectedStars, 20, 40);
+                    text("Stars Collected: " + collectedStars, 100, 40);
                     if (frameCount % 60 == 0 && timeRemaining > 0) {
                         timeRemaining--; // Decrease timer every second
                     }
                     textSize(20);
                     fill(255);
-                    text("Time Left: " + timeRemaining, 20, 80);
+                    text("Time Left: " + timeRemaining, 80, 80);
                     // Check if time is up
                     if (timeRemaining <= 0) {
                         gameOver = true;
@@ -386,15 +386,15 @@ public class MySketch extends PApplet {
                 }
                 background1.resize(900, 731);
                 image(background1, 0, 0);
-                // Loop through all clouds in stage 3 and draw them          
+                // Loop through all clouds in stage 4 and draw them          
                 for (int i = 0; i < 3; i++) {
-                    stage3Clouds[i].draw();
+                    stage4Clouds[i].draw();
                 }
                 // Add movement effects to certain clouds
-                stage3Clouds[1].floatLeftRight(); // Move cloud back and forth horizontally
-                stage3Clouds[2].floatUpDown(); // Move cloud up and down
+                stage4Clouds[1].floatLeftRight(); // Move cloud back and forth horizontally
+                stage4Clouds[2].floatUpDown(); // Move cloud up and down
                 // Apply gravity effect to Houyi, checking for collisions with clouds
-                houyi.applyFall(stage3Clouds);
+                houyi.applyFall(stage4Clouds);
                 houyi.draw();
                 if (houyi.x > 890) { // Move to next stage when reaching far-right edge
                     houyi.setPosition(10, 650);
@@ -406,11 +406,11 @@ public class MySketch extends PApplet {
                 image(background1, 0, 0);
                 // Draw all clouds for stage 5
                 for (int i = 0; i < 4; i++) {
-                    stage4Clouds[i].draw();
+                    stage5Clouds[i].draw();
                 }
                 // Apply fading effect to one cloud
-                stage4Clouds[2].fade(); // Cloud fades automatically and reappears
-                houyi.applyFall(stage4Clouds); // Apply gravity
+                stage5Clouds[2].fade(); // Cloud fades automatically and reappears
+                houyi.applyFall(stage5Clouds); // Apply gravity
                 direction_sign.draw();
                 houyi.draw();
                 // If Houyi reached the far-right edge of the screen, go to next stage

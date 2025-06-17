@@ -16,6 +16,7 @@ public class Chang_e extends Character {
     private int x, y;
     private PApplet app;
     private PImage image;
+    private FallingStar star;
 
     // Constructor
     Chang_e(PApplet p, int x, int y, String imagePath) {

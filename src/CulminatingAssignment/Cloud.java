@@ -16,7 +16,7 @@ public class Cloud extends Object {
     private PImage image;
     private PApplet app;
     private boolean isVisible = true;
-    private boolean disappears;
+    public boolean disappears;
     private int disappearTime = 120;
     public boolean canFade = false;
     private int alpha = 255; // Full opacity
@@ -50,6 +50,7 @@ public class Cloud extends Object {
 
     /**
      * Sets the cloud's position.
+     *
      * @param x New X position.
      * @param y New Y position.
      */
@@ -114,6 +115,7 @@ public class Cloud extends Object {
             if (disappearTime <= 0) {
                 isVisible = true; // Cloud reappears
                 alpha = 255; // Reset transparency
+                setPosition(startX, startY);
                 disappearTime = 120; // Reset timer
             }
         }

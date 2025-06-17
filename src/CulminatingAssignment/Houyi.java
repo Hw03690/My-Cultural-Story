@@ -44,6 +44,7 @@ public class Houyi extends Character {
 
     /**
      * Sets the position of Houyi.
+     *
      * @param x New X position.
      * @param y New Y position.
      */
@@ -63,6 +64,7 @@ public class Houyi extends Character {
 
     /**
      * Applies gravity to Houyi and checks for cloud collisions.
+     *
      * @param clouds Array of clouds to check collision.
      */
     public void applyFall(Cloud[] clouds) {
@@ -120,13 +122,18 @@ public class Houyi extends Character {
     }
 
     /**
-     * Moves Houyi by a specified amount in both horizontal and vertical directions.
+     * Moves Houyi by a specified amount in both horizontal and vertical
+     * directions.
+     *
      * @param dx Change in X position.
      * @param dy Change in Y position.
      */
     public void move(int dx, int dy) {
         x += dx;
         y += dy;
+        if (x < 0) {
+            x = 0; // Prevent moving beyond the left boundary
+        }
     }
 
     /**
@@ -151,7 +158,7 @@ public class Houyi extends Character {
             int frame = (app.frameCount / 5) % walkLeft.length; // Select animation frame based on time
             app.image(walkLeft[frame], x, y); // Display left-walking frame
         } else if (isWalkingRight) { // If Houyi is walking right
-            int frame = (app.frameCount / 5) % walkRight.length; // // Select animation frame based on time
+            int frame = (app.frameCount / 5) % walkRight.length; // Select animation frame based on time
             app.image(walkRight[frame], x, y); // Display right-walking frame
         } else {
             app.image(image, x, y); // Display idle sprite
